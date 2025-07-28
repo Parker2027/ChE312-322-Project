@@ -7,15 +7,15 @@ import matplotlib.pyplot as plt
 Tinit = 0
 Tf0 = 10
 
-n = 5
-R1 = 3
-R2 = 5
-A1 = 2*np.pi*R1
-A2 = 2*np.pi*R2
+n = 18 # number of internal nodes
+R1 = 3 # cm
+R2 = 5 # cm
+A1 = 2*np.pi*R1 # cm2
+A2 = 2*np.pi*R2 # cm2
 
-k = 0.22
-hf = 1
-ha = 1
+k = 2.22/1000 # J/(cm * K)
+hf = 1500/1000**2 # J/(cm2 * K)
+ha = 500/1000**2 # J/(cm2 * K)
 
 rho = 1 # g/cm3
 cp = 4.184 # J/(g * K)
@@ -38,7 +38,7 @@ def dTdt(t, T0):
 
    return np.hstack([dTdt, dTfdt])
 
-tend = 100
+tend = 1000
 t_vals = np.linspace(0, tend, 101)
 sol = solve_ivp(dTdt, (0, tend), np.hstack([np.ones(n+2)*Tinit, Tf0]), t_eval = t_vals)
 
