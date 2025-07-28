@@ -1,6 +1,5 @@
 import numpy as np
-from scipy.integrate import solve_ivp, solve_bvp
-from scipy.optimize import fsolve
+from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 
 Tinit = 0
