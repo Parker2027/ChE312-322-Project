@@ -12,7 +12,7 @@ R2 = 5 # cm
 h = 20 #cm
 A1 = 2*np.pi*R1*h # cm2
 A2 = 2*np.pi*R2*h # cm2
-V_liq = np.pi*(R2**2 - R1**2)*h
+V_liq = np.pi*(R2**2 - R1**2) * h # cm3
 
 k = 2.22/1000 # W/(cm * K)
 hf = 1500/1000**2 # W/(cm2 * K)
