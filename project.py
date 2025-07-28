@@ -38,23 +38,30 @@ def dTdt(t, T0):
 
    return np.hstack([dTdt, dTfdt])
 
-tend = 10
+tend = 100
+t_vals = np.linspace(0, tend, 101)
+sol = solve_ivp(dTdt, (0, tend), np.hstack([np.ones(n+2)*Tinit, Tf0]), t_eval = t_vals)
 
-sol = solve_ivp(dTdt, (0, tend), np.hstack([np.ones(n+2)*Tinit, Tf0]))
-
-y_vals = np.linspace(0, 10, n+2)
+y_vals = np.linspace(0, R1, n+2)
 
 tsteps = sol.t.size
 
 soly = sol.y
 
 plt.figure()
-for i in range(0, tsteps, 2):
-	plt.cla()
-	plt.ylim([0,25])
-	plt.plot(y_vals,soly[:-1, i], label='t='+str(round(sol.t[i], 2))+'seconds')
-	plt.legend()
-	plt.xlabel("r (cm)")
-	plt.ylabel("Temperature (Celcius)")
-	plt.pause(0.01)
+for i in range(0, tsteps, 5):
+    plt.cla()
+    plt.ylim([0,30])
+    plt.plot(y_vals,soly[:-1, i], label='t='+str(round(sol.t[i], 2))+'seconds')
+    plt.legend()
+    plt.xlabel("r (cm)")
+    plt.ylabel("Temperature (Celcius)")
+    plt.pause(0.01)
+plt.show()
+
+
+plt.plot(t_vals,soly[-1, :])
+plt.ylim([0,30])
+plt.xlabel("t (s)")
+plt.ylabel("Temperature of Liquid (Celcius)")
 plt.show()
