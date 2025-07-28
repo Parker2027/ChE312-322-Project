@@ -3,7 +3,6 @@ from scipy.integrate import solve_ivp, solve_bvp
 from scipy.optimize import fsolve
 import matplotlib.pyplot as plt
 
-
 Tinit = 0
 Tf0 = 5
 
@@ -62,7 +61,6 @@ for i in range(0, tsteps, 5):
     plt.ylabel("Temperature of Ice (Celcius)")
     plt.pause(0.01)
 plt.show()
-
 
 plt.plot(t_vals,soly[-1, :])
 plt.ylim([0,30])
