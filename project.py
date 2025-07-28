@@ -5,21 +5,25 @@ import matplotlib.pyplot as plt
 
 
 Tinit = 0
-Tf0 = 10
+Tf0 = 5
 
-n = 18 # number of internal nodes
+n = 32 # number of internal nodes
 R1 = 3 # cm
 R2 = 5 # cm
-A1 = 2*np.pi*R1 # cm2
-A2 = 2*np.pi*R2 # cm2
+h = 20 #cm
+A1 = 2*np.pi*R1*h # cm2
+A2 = 2*np.pi*R2*h # cm2
+V_liq = np.pi*(R2**2 - R1**2)*h
 
-k = 2.22/1000 # J/(cm * K)
-hf = 1500/1000**2 # J/(cm2 * K)
-ha = 500/1000**2 # J/(cm2 * K)
+k = 2.22/1000 # W/(cm * K)
+hf = 1500/1000**2 # W/(cm2 * K)
+ha = 500/1000**2 # W/(cm2 * K)
 
-rho = 1 # g/cm3
-cp = 4.184 # J/(g * K)
-alpha = k/(rho*cp)
+rho_ice = 0.916 # g/cm3
+rho_water = 1 # g/cm3
+cp_ice = 2.050 # J/(g * K)
+cp_water = 4.184 # J/(g * K)
+alpha = k/(rho_ice*cp_ice) 
 
 Tinf = 25 # degrees celcius
 
@@ -34,12 +38,12 @@ def dTdt(t, T0):
    dTdt[1:-1] = alpha * ((T[2:]-2*T[1:-1]+T[:-2])/(delta_r**2) + 1/r[1:-1] * (T[2:]-T[:-2])/delta_r)
    dTdt[-1] = -k/hf * (T[-1]-Tf)
 
-   dTfdt = -(ha * A2 * (Tf-Tinf) - hf * A1 * (T[-1]-Tf))/(rho*cp)
+   dTfdt = -(ha * A2 * (Tf-Tinf) - hf * A1 * (T[-1]-Tf))/(rho_water*cp_water*V_liq)
 
    return np.hstack([dTdt, dTfdt])
 
-tend = 3600
-t_vals = np.linspace(0, tend, 301) # 12 seconds per step
+tend = 3600 * 15
+t_vals = np.linspace(0, tend, 301) # 60 seconds per step
 sol = solve_ivp(dTdt, (0, tend), np.hstack([np.ones(n+2)*Tinit, Tf0]), t_eval = t_vals)
 
 y_vals = np.linspace(0, R1, n+2)
