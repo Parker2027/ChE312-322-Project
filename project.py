@@ -19,8 +19,8 @@ def dTdt(t, T):
    delta_r = R1/(n+1)
    r = np.linspace(0, R1, n+2)
    dTdt = np.zeros(n+2)
+   
    dTdt[0] = alpha * (2*T[1]-2*T[0])/(delta_r**2)
-   #print(np.shape(dTdt[1:-1]), np.shape(T[2:]), np.shape(T[:-2]), np.shape(r[1:-1]), np.shape(T[2:]), np.shape(T[:-2]))
    dTdt[1:-1] = alpha * ((T[2:]-2*T[1:-1]+T[:-2])/(delta_r**2) + 1/r[1:-1] * (T[2:]-T[:-2])/delta_r)
    dTdt[-1] = -k/hi * (T[-1]-Tf)
 
