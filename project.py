@@ -38,8 +38,8 @@ def dTdt(t, T0):
 
    return np.hstack([dTdt, dTfdt])
 
-tend = 1000
-t_vals = np.linspace(0, tend, 101)
+tend = 3600
+t_vals = np.linspace(0, tend, 301) # 12 seconds per step
 sol = solve_ivp(dTdt, (0, tend), np.hstack([np.ones(n+2)*Tinit, Tf0]), t_eval = t_vals)
 
 y_vals = np.linspace(0, R1, n+2)
@@ -52,10 +52,10 @@ plt.figure()
 for i in range(0, tsteps, 5):
     plt.cla()
     plt.ylim([0,30])
-    plt.plot(y_vals,soly[:-1, i], label='t='+str(round(sol.t[i], 2))+'seconds')
+    plt.plot(y_vals,soly[:-1, i], label='t='+str(round(sol.t[i], 2)/60)+' minutes')
     plt.legend()
     plt.xlabel("r (cm)")
-    plt.ylabel("Temperature (Celcius)")
+    plt.ylabel("Temperature of Ice (Celcius)")
     plt.pause(0.01)
 plt.show()
 
