@@ -51,7 +51,7 @@ def dTdt(t, T0):
    return np.hstack([dTdt, dTfdt])
 
 tend = 3600 * hr # time in seconds to evaluate
-t_vals = np.linspace(0, tend, n+2) # 60 seconds per step
+t_vals = np.linspace(0, tend, n+2) # again plus two for the boundary nodes
 
 sol = solve_ivp(dTdt, (0, tend), np.hstack([np.ones(n+2)*Tinit, Tf0]), t_eval = t_vals)
 
