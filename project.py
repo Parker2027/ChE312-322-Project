@@ -3,11 +3,14 @@ from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 
 Tinit = 0 # Initial temperature of the ice spear
-Tf0 = 5 # Initial temperature of the "water'
+Tf0 = 5 # Initial temperature of the "water"
+Tinf = 25 # Temperature of air in °C
 
 steps = 6 # how many steps in time per hour
-hr = 15 # how many hours to simulate
+hr = 10 # how many hours to simulate
+
 n = steps*hr - 1 # number of internal nodes
+
 R1 = 3 # radius of ice spear # cm 
 R2 = 5 # outer radius of system # cm
 h = 20 # height of glass # cm
@@ -25,8 +28,6 @@ cp_ice = 2.050 # heat capacity of ice at 0°C #J/(g * K)
 cp_water = 4.184 # J/(g * K) # heat capacity of "water"
 
 alpha = k/(rho_ice*cp_ice) 
-
-Tinf = 25 # Temperature of air in °C
 
 def dTdt(t, T0):
    '''
@@ -76,7 +77,6 @@ plt.ylim([0,30]) # max temp is Tinf
 plt.xlabel("t (s)")
 plt.ylabel("Temperature of Liquid (°C)")
 plt.show()
-
 
 r, t = np.meshgrid(r_vals, t_vals) # r_vals, t_vals need to be the same size else plot_surface breaks
 fig=plt.figure()
