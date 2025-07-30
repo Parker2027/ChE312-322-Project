@@ -6,8 +6,8 @@ Tinit = 0 # Initial temperature of the ice spear
 Tf0 = 5 # Initial temperature of the "water"
 Tinf = 25 # Temperature of air in °C
 
-steps = 6 # how many steps in time per hour
-hr = 10 # how many hours to simulate
+steps = 10 # how many steps in time per hour
+hr = 12 # how many hours to simulate
 
 n = steps*hr - 1 # number of internal nodes
 
@@ -62,7 +62,7 @@ tsteps = sol.t.size
 solT = sol.y
 
 plt.figure()
-for i in range(0, tsteps):
+for i in range(0, tsteps, 2):
     plt.cla()
     plt.ylim([0,30])
     plt.plot(r_vals,solT[:-1, i], label='t='+str(round(sol.t[i], 2)/60)+' minutes')
@@ -72,17 +72,17 @@ for i in range(0, tsteps):
     plt.pause(0.01)
 plt.show()
 
-plt.plot(t_vals,solT[-1, :]) # e
+plt.plot(t_vals/60,solT[-1, :]) # e
 plt.ylim([0,30]) # max temp is Tinf
-plt.xlabel("t (s)")
+plt.xlabel("Time Elapsed (min)")
 plt.ylabel("Temperature of Liquid (°C)")
 plt.show()
 
-r, t = np.meshgrid(r_vals, t_vals) # r_vals, t_vals need to be the same size else plot_surface breaks
+r, t = np.meshgrid(r_vals, t_vals/60) # r_vals, t_vals need to be the same size else plot_surface breaks
 fig=plt.figure()
 ax=plt.axes(projection='3d') # initiating the 3d plot
 plot=ax.plot_surface(r,t,solT[:-1].T,cmap=plt.cm.coolwarm) #plotting ice temperature against distance from radius and time
-ax.set_xlabel('r')
-ax.set_ylabel('t')
-ax.set_zlabel('T')
+ax.set_xlabel('Distance from Center (cm)')
+ax.set_ylabel('Time Elapsed (min)')
+ax.set_zlabel('Temperature of Ice (°C)')
 plt.show()
