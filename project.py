@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 Tinit = 0
 Tf0 = 5
 
-n = 32 # number of internal nodes
+n = 30 # number of internal nodes
 R1 = 3 # cm
 R2 = 5 # cm
 h = 20 #cm
@@ -41,28 +41,38 @@ def dTdt(t, T0):
    return np.hstack([dTdt, dTfdt])
 
 tend = 3600 * 15
-t_vals = np.linspace(0, tend, 301) # 60 seconds per step
+t_vals = np.linspace(0, tend, 32) # 60 seconds per step
 sol = solve_ivp(dTdt, (0, tend), np.hstack([np.ones(n+2)*Tinit, Tf0]), t_eval = t_vals)
 
-y_vals = np.linspace(0, R1, n+2)
+r_vals = np.linspace(0, R1, n+2)
 
 tsteps = sol.t.size
 
 soly = sol.y
 
 plt.figure()
-for i in range(0, tsteps, 5):
+for i in range(0, tsteps, 20):
     plt.cla()
     plt.ylim([0,30])
-    plt.plot(y_vals,soly[:-1, i], label='t='+str(round(sol.t[i], 2)/60)+' minutes')
+    plt.plot(r_vals,soly[:-1, i], label='t='+str(round(sol.t[i], 2)/60)+' minutes')
     plt.legend()
     plt.xlabel("r (cm)")
     plt.ylabel("Temperature of Ice (°C)")
-    plt.pause(0.01)
+    #plt.pause(0.01)
 plt.show()
 
 plt.plot(t_vals,soly[-1, :])
 plt.ylim([0,30])
 plt.xlabel("t (s)")
 plt.ylabel("Temperature of Liquid (°C)")
+plt.show()
+
+r, t = np.meshgrid(r_vals, t_vals)
+fig=plt.figure()
+ax=plt.axes(projection='3d')
+plot=ax.plot_surface(r,t,sol.y[:-1],cmap=plt.cm.coolwarm)
+ax.set_xlabel('x')
+ax.set_ylabel('t')
+ax.set_zlabel('T')
+#fig.colorbar(plot)
 plt.show()
